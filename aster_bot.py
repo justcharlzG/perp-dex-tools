@@ -110,7 +110,7 @@ async def main():
         exchange="aster",
         quantity=0.001,
         take_profit=0,
-        direction="sell",
+        direction="buy",
         max_orders=0,
         wait_time=10,
         grid_step=0,
