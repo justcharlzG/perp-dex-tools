@@ -108,15 +108,24 @@ class CloseOrdBot:
 
 
 async def main():
+    parser = argparse.ArgumentParser(description='aster close market Bot - aster only')
+
+    parser.add_argument('--ticker', type=str, required=True, help='交易对，例如 BTC 或 ETH')
+    parser.add_argument('--quantity', type=float, required=True, help='下单数量，例如 BTC 0.002  ETH 0.05')
+    parser.add_argument('--direction', type=str, choices=['buy', 'sell'], required=True, help='原持仓方向: buy 或 sell')
+
+    args = parser.parse_args()
+
+
     # Create and run the bot
     config = TradingConfig(
-        ticker="BTC",
+        ticker=args.ticker,
         contract_id='',  # will be set in the bot's run method
         tick_size=Decimal(0),
         exchange="aster",
-        quantity=0.002,
+        quantity=args.quantity,
         take_profit=0,
-        direction="buy",
+        direction=args.direction,
         max_orders=0,
         wait_time=10,
         grid_step=0,
