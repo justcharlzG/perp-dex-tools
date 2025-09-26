@@ -69,7 +69,7 @@ class CloseOrdBot:
 
 async def main():
     # Create and run the bot
-    bot = TradingBot(config)
+    bot = CloseOrdBot()
     try:
         await bot.run()
     except Exception as e:
