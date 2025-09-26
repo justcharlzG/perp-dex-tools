@@ -9,8 +9,9 @@ from exchanges import ExchangeFactory
 from helpers import TradingLogger
 
 class CloseOrdBot:
-    def __init__(self,config):
+    def __init__(self, config):
         self.logger = TradingLogger(config.exchange, config.ticker, log_to_console=True)
+        self.config = config
 
         # Create exchange client
         try:
@@ -23,6 +24,21 @@ class CloseOrdBot:
 
         # Trading state
         self.active_close_orders = []   
+
+
+
+    async def graceful_shutdown(self, reason: str = "Unknown"):
+        """Perform graceful shutdown of the trading bot."""
+        self.logger.log(f"Starting graceful shutdown: {reason}", "INFO")
+        self.shutdown_requested = True
+
+        try:
+            # Disconnect from exchange
+            await self.exchange_client.disconnect()
+            self.logger.log("Graceful shutdown completed", "INFO")
+
+        except Exception as e:
+            self.logger.log(f"Error during graceful shutdown: {e}", "ERROR")
 
     async def run(self):
 
