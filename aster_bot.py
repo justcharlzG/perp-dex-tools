@@ -108,7 +108,7 @@ async def main():
         contract_id='',  # will be set in the bot's run method
         tick_size=Decimal(0),
         exchange="aster",
-        quantity=0.001,
+        quantity=0.0024,
         take_profit=0,
         direction="buy",
         max_orders=0,
