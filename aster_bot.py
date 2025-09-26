@@ -8,15 +8,14 @@ from trading_bot import TradingBot, TradingConfig
 from exchanges import ExchangeFactory
 from helpers import TradingLogger
 
-exchange = "aster"
 class CloseOrdBot:
-    def __init__(self):
-        self.logger = TradingLogger(exchange, "BTC", log_to_console=True)
+    def __init__(self,config):
+        self.logger = TradingLogger(config.exchange, config.ticker, log_to_console=True)
 
         # Create exchange client
         try:
             self.exchange_client = ExchangeFactory.create_exchange(
-                exchange,
+                config.exchange,
                 config
             )
         except ValueError as e:
@@ -26,6 +25,8 @@ class CloseOrdBot:
         self.active_close_orders = []   
 
     async def run(self):
+
+
         """Main trading loop."""
         try:
             self.config.contract_id, self.config.tick_size = await self.exchange_client.get_contract_attributes()
@@ -69,7 +70,13 @@ class CloseOrdBot:
 
 async def main():
     # Create and run the bot
-    bot = CloseOrdBot()
+    config = TradingConfig(
+        ticker="BTC",
+        contract_id='',  # will be set in the bot's run method
+        tick_size=Decimal(0),
+        exchange="aster"
+    )    
+    bot = CloseOrdBot(config)
     try:
         await bot.run()
     except Exception as e:
