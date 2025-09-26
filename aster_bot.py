@@ -76,7 +76,7 @@ class CloseOrdBot:
             close_order_result = await self.exchange_client.place_market_order(
                     self.config.contract_id,
                     # round(position_amt / 100, 4),
-                    0.001
+                    0.001,
                     self.config.close_order_side
                 )
             if not close_order_result.success:
