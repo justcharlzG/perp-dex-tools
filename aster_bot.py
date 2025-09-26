@@ -1,3 +1,6 @@
+
+import random
+import time
 import argparse
 import asyncio
 from pathlib import Path
@@ -71,18 +74,21 @@ class CloseOrdBot:
 
 
             # 获取仓位数量，比如几个btc，几个eth
-            position_amt = await self.exchange_client.get_account_positions()
-            self.logger.log(f"Current Position: {position_amt}")
-            close_order_result = await self.exchange_client.place_market_order(
-                    self.config.contract_id,
-                    # round(position_amt / 100, 4),
-                    self.config.quantity,
-                    self.config.close_order_side
-                )
-            if not close_order_result.success:
-                self.logger.log(f"[CLOSE] Failed to place close order: {close_order_result.error_message}", "ERROR")
-            else:
-                self.logger.log(f"[CLOSE] 减仓成功")
+            # position_amt = await self.exchange_client.get_account_positions()
+            # self.logger.log(f"Current Position: {position_amt}")
+            
+            for i in range(10):
+                close_order_result = await self.exchange_client.place_market_order(
+                        self.config.contract_id,
+                        self.config.quantity,
+                        self.config.close_order_side
+                    )
+                if not close_order_result.success:
+                    self.logger.log(f"[CLOSE] Failed to place close order: {close_order_result.error_message}", "ERROR")
+                else:
+                    self.logger.log(f"[CLOSE] 减仓成功")
+                
+                time.sleep(random.randint(10, 15))
 
             # Get positions
 
