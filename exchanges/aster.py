@@ -612,7 +612,7 @@ class AsterClient(BaseExchangeClient):
             else:
                 return OrderResult(success=False, error_message='Unknown order status: ' + order_status)
 
-    async def place_market_order(self, contract_id: str, quantity: Decimal, direction: str) -> OrderResult:
+    async def place_market_order(self, contract_id: str, quantity: Decimal, direction: str, reduceOnly=True) -> OrderResult:
         """Place a market order with Aster."""
         # Validate direction
         if direction.lower() not in ['buy', 'sell']:
@@ -623,7 +623,8 @@ class AsterClient(BaseExchangeClient):
             'symbol': contract_id,
             'side': direction.upper(),
             'type': 'MARKET',
-            'quantity': str(quantity)
+            'quantity': str(quantity),
+            'reduceOnly': reduceOnly,
         }
 
         result = await self._make_request('POST', '/fapi/v1/order', data=order_data)

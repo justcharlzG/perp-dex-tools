@@ -69,9 +69,21 @@ class CloseOrdBot:
             # Connect to exchange
             await self.exchange_client.connect()
 
-            # Get positions
+
+            # 获取仓位数量，比如几个btc，几个eth
             position_amt = await self.exchange_client.get_account_positions()
-            self.logger.log(f"Current Position: {position_amt} ")          
+            self.logger.log(f"Current Position: {position_amt}")
+            close_order_result = await self.exchange_client.place_market_order(
+                    self.config.contract_id,
+                    round(position_amt / 100, 4),
+                    self.config.close_order_side
+                )
+            if not close_order_result.success:
+                self.logger.log(f"[CLOSE] Failed to place close order: {close_order_result.error_message}", "ERROR")
+            else:
+                self.logger.log(f"[CLOSE] 减仓成功")
+
+            # Get positions
 
         except KeyboardInterrupt:
             self.logger.log("Bot stopped by user")
@@ -95,7 +107,7 @@ async def main():
         contract_id='',  # will be set in the bot's run method
         tick_size=Decimal(0),
         exchange="aster",
-        quantity=100,
+        quantity=0.0001,
         take_profit=0,
         direction="buy",
         max_orders=0,
