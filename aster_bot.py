@@ -77,7 +77,7 @@ class CloseOrdBot:
             # position_amt = await self.exchange_client.get_account_positions()
             # self.logger.log(f"Current Position: {position_amt}")
             
-            for i in range(10):
+            for i in range(20):
                 close_order_result = await self.exchange_client.place_market_order(
                         self.config.contract_id,
                         self.config.quantity,
