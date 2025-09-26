@@ -78,7 +78,7 @@ async def main():
         direction=args.direction,
         max_orders=args.max_orders,
         wait_time=args.wait_time,
-        exchange=args.exchange, 
+        exchange=args.exchange,
         grid_step=Decimal(args.grid_step),
         stop_price=Decimal(args.stop_price),
         pause_price=Decimal(args.pause_price),
