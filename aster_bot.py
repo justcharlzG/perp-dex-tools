@@ -69,6 +69,10 @@ class CloseOrdBot:
             # Connect to exchange
             await self.exchange_client.connect()
 
+            # Get positions
+            position_amt = await self.exchange_client.get_account_positions()
+            self.logger.log(f"Current Position: {position_amt} ")          
+
         except KeyboardInterrupt:
             self.logger.log("Bot stopped by user")
             await self.graceful_shutdown("User interruption (Ctrl+C)")
