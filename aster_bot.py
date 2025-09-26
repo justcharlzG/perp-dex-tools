@@ -74,7 +74,16 @@ async def main():
         ticker="BTC",
         contract_id='',  # will be set in the bot's run method
         tick_size=Decimal(0),
-        exchange="aster"
+        exchange="aster",
+        quantity=100,
+        take_profit=0,
+        direction="buy",
+        max_orders=0,
+        wait_time=10,
+        grid_step=0,
+        stop_price=0,
+        pause_price=0,
+        aster_boost=False
     )    
     bot = CloseOrdBot(config)
     try:
