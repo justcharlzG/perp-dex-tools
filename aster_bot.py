@@ -76,7 +76,7 @@ class CloseOrdBot:
             close_order_result = await self.exchange_client.place_market_order(
                     self.config.contract_id,
                     # round(position_amt / 100, 4),
-                    0.001,
+                    self.config.quantity,
                     self.config.close_order_side
                 )
             if not close_order_result.success:
@@ -108,9 +108,9 @@ async def main():
         contract_id='',  # will be set in the bot's run method
         tick_size=Decimal(0),
         exchange="aster",
-        quantity=0.0001,
+        quantity=0.001,
         take_profit=0,
-        direction="buy",
+        direction="sell",
         max_orders=0,
         wait_time=10,
         grid_step=0,
