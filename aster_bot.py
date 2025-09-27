@@ -12,10 +12,10 @@ from exchanges import ExchangeFactory
 from helpers import TradingLogger
 
 class CloseOrdBot:
-    def __init__(self, config):
+    def __init__(self, config, loops):
         self.logger = TradingLogger(config.exchange, config.ticker, log_to_console=True)
         self.config = config
-
+        self.loops = loops
         # Create exchange client
         try:
             self.exchange_client = ExchangeFactory.create_exchange(
@@ -77,7 +77,7 @@ class CloseOrdBot:
             # position_amt = await self.exchange_client.get_account_positions()
             # self.logger.log(f"Current Position: {position_amt}")
             
-            for i in range(20):
+            for i in range(self.loops):
                 close_order_result = await self.exchange_client.place_market_order(
                         self.config.contract_id,
                         self.config.quantity,
@@ -113,6 +113,7 @@ async def main():
     parser.add_argument('--ticker', type=str, required=True, help='交易对，例如 BTC 或 ETH')
     parser.add_argument('--quantity', type=float, required=True, help='下单数量，例如 BTC 0.002  ETH 0.05')
     parser.add_argument('--direction', type=str, choices=['buy', 'sell'], required=True, help='原持仓方向: buy 或 sell')
+    parser.add_argument('--loops', type=int, default=20, help='循环次数，例如 5')
 
     args = parser.parse_args()
 
@@ -133,7 +134,7 @@ async def main():
         pause_price=0,
         aster_boost=False
     )    
-    bot = CloseOrdBot(config)
+    bot = CloseOrdBot(config, args.loops)
     try:
         await bot.run()
     except Exception as e:

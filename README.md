@@ -259,3 +259,15 @@ python runbot.py --exchange aster --ticker ETH --direction buy --quantity 0.1 --
 ## 免责声明
 
 本软件仅供教育和研究目的。加密货币交易涉及重大风险，可能导致重大财务损失。使用风险自负，切勿用您无法承受损失的资金进行交易。
+
+
+##
+python aster_bot.py 
+ usage: aster_bot.py [-h] --ticker TICKER --quantity QUANTITY --direction {buy,sell}
+aster_bot.py: error: the following arguments are required: --ticker, --quantity, --direction
+
+平仓btc空单，一次0.002 大概 200多u
+python3 aster_bot.py  --ticker BTC --quantity 0.002 --direction sell
+
+平仓eth多单，一次0.05 大概 200多u
+python3 aster_bot.py  --ticker ETH --quantity 0.05 --direction buy
